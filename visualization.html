@@ -1,412 +1,197 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>3D Visualization - NeuroNix</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="modern-app.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
-    <!-- Left Sidebar Navigation -->
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div class="splash-logo"><i class="fas fa-cube"></i></div>
+        <h2 style="color: var(--primary); margin-bottom: 2rem;">Initializing 3D Engine...</h2>
+        <div class="loader"></div>
+    </div>
+
+    <!-- Sidebar (Desktop) -->
     <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <div class="brand">
-                    <i class="fas fa-fire-flame-curved"></i>
-                    NeuroNix
-                </div>
-                <div class="sidebar-tagline">Forest Fire Intelligence Platform</div>
-            </div>
-        </div>
+        <div class="brand"><i class="fas fa-fire-flame-curved"></i><span>NeuroNix</span></div>
         <nav class="sidebar-nav">
-            <div class="nav-section">
-                <div class="nav-section-title">Core Features</div>
-                <a href="index.html" class="sidebar-nav-link">
-                    <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="risk-analysis.html" class="sidebar-nav-link">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Risk Assessment</span>
-                </a>
-                <a href="simulation.html" class="sidebar-nav-link">
-                    <i class="fas fa-fire"></i>
-                    <span>Fire Simulation</span>
-                </a>
-                <a href="optimization.html" class="sidebar-nav-link">
-                    <i class="fas fa-route"></i>
-                    <span>Resource Planning</span>
-                </a>
-            </div>
-            <div class="nav-section">
-                <div class="nav-section-title">Monitoring & Analysis</div>
-                <a href="monitoring.html" class="sidebar-nav-link">
-                    <i class="fas fa-satellite-dish"></i>
-                    <span>Live Monitoring</span>
-                </a>
-                <a href="visualization.html" class="sidebar-nav-link active">
-                    <i class="fas fa-cube"></i>
-                    <span>3D Visualization</span>
-                </a>
-                <a href="analytics.html" class="sidebar-nav-link">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Data Analytics</span>
-                </a>
-            </div>
+            <a href="index.html" class="nav-link"><i class="fas fa-house"></i><span>Dashboard</span></a>
+            <a href="risk-analysis.html" class="nav-link"><i class="fas fa-chart-line"></i><span>Risk Assessment</span></a>
+            <a href="simulation.html" class="nav-link"><i class="fas fa-fire"></i><span>Fire Simulation</span></a>
+            <a href="optimization.html" class="nav-link"><i class="fas fa-route"></i><span>Resource Planning</span></a>
+            <a href="monitoring.html" class="nav-link"><i class="fas fa-satellite-dish"></i><span>Live Monitoring</span></a>
+            <a href="visualization.html" class="nav-link active"><i class="fas fa-cube"></i><span>3D Visualization</span></a>
+            <a href="analytics.html" class="nav-link"><i class="fas fa-chart-bar"></i><span>Data Analytics</span></a>
         </nav>
-        
     </aside>
 
-    <!-- Professional Fixed Header -->
+    <!-- Header -->
     <header class="fixed-header">
         <div class="header-container">
-            <button class="mobile-menu-toggle" onclick="toggleSidebar()">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="header-controls">
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Search alerts, regions, data...">
+            <div class="header-left">
+                <button class="mobile-menu-toggle" onclick="toggleSidebar()" style="background: none; border: none; color: white; font-size: 1.25rem; display: flex; align-items: center; padding: 8px;">
+                    <i class="fas fa-bars-staggered"></i>
+                </button>
+                <div class="brand brand-mobile-only">
+                    <i class="fas fa-fire-flame-curved"></i><span>NeuroNix</span>
                 </div>
-                <div class="header-status">
-                    <div class="status-indicator">
-                        <span class="status-dot active"></span>
-                        <span class="status-text">System Online</span>
-                    </div>
-                    <div class="last-update">
-                        <i class="fas fa-sync-alt"></i>
-                        <span id="header-update-time">2 min ago</span>
-                    </div>
+            </div>
+            <div class="header-right">
+                <div class="status-pill" style="border-color: rgba(168, 85, 247, 0.2);">
+                    <span class="status-orb" style="background: #a855f7; box-shadow: 0 0 8px #a855f7;"></span>
+                    <span style="font-size: 0.7rem; color: #a855f7; letter-spacing: 0.05em; text-transform: uppercase;">3D RENDER ACTIVE</span>
+                </div>
+                <div class="user-profile">
+                    <div class="profile-avatar"><i class="fas fa-user-shield"></i></div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- FireVision 3D/AR Visualization Section -->
-    <section class="section">
-        <div class="section-header">
-            <h2>FireVision - 3D/AR Fire Visualization</h2>
-            <p>Step Inside the Fire's Future - Immersive 3D and AR Visualization</p>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="section-header" style="margin-bottom: var(--spacing-lg);">
+            <h2 data-init-animate>FireVision 3D/AR</h2>
+            <p data-init-animate>Immersive behavior visualization and predictive terrain modeling</p>
         </div>
-        <div class="section-content">
-            <div class="firevision-layout">
-                <!-- 3D Visualization Container -->
-                <div class="firevision-main">
-                    <div class="visualization-header">
-                        <div class="viz-mode-selector">
-                            <button class="viz-mode-btn active" data-mode="3d">
-                                <i class="fas fa-cube"></i>
-                                3D Mode
-                            </button>
-                            <button class="viz-mode-btn" data-mode="ar" id="ar-mode-btn">
-                                <i class="fas fa-magic"></i>
-                                AR Mode
-                            </button>
-                        </div>
-                        <div class="viz-status">
-                            <span class="status-indicator">
-                                <span class="status-dot active"></span>
-                                <span id="viz-status-text">3D Terrain Ready</span>
-                            </span>
+
+        <div class="grid grid-cols-1 lg-grid-cols-3">
+            <!-- 3D Canvas Area -->
+            <div style="grid-column: span 1 / span 2;">
+                <div class="card" style="padding: 0; min-height: 500px; overflow: hidden; position: relative;" id="canvas-container" data-init-animate>
+                    <canvas id="firevision-canvas" style="width: 100%; height: 500px;"></canvas>
+                    
+                    <!-- Overlay Mode Switcher -->
+                    <div style="position: absolute; top: 15px; left: 15px; z-index: 1000;">
+                        <div class="tab-container" style="margin-bottom: 0; padding: 4px;">
+                            <button class="tab-trigger active viz-mode-btn" data-mode="3d" style="padding: 6px 12px; font-size: 0.75rem;"><i class="fas fa-cube"></i> 3D</button>
+                            <button class="tab-trigger viz-mode-btn" data-mode="ar" id="ar-mode-btn" style="padding: 6px 12px; font-size: 0.75rem;"><i class="fas fa-vr-cardboard"></i> AR</button>
                         </div>
                     </div>
 
-                    <!-- 3D Canvas Container -->
-                    <div class="canvas-container" id="canvas-container">
-                        <canvas id="firevision-canvas"></canvas>
+                    <!-- AR Instructions (Hidden) -->
+                    <div id="ar-instructions" style="position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 1001; text-align: center; padding: 2rem;">
+                         <h3>AR Experience</h3>
+                         <p style="margin: 1rem 0;">Point your camera at a flat surface to place the model.</p>
+                         <button class="btn btn-primary" onclick="startARSession()">Start Session</button>
+                    </div>
 
-                        <!-- 3D Controls Overlay -->
-                        <div class="viz-controls-overlay">
-                            <div class="control-group">
-                                <button class="control-btn" id="rotate-terrain">
-                                    <i class="fas fa-sync-alt"></i>
-                                    Rotate
-                                </button>
-                                <button class="control-btn" id="zoom-fit">
-                                    <i class="fas fa-search"></i>
-                                    Fit View
-                                </button>
-                                <button class="control-btn" id="toggle-wireframe">
-                                    <i class="fas fa-border-all"></i>
-                                    Wireframe
-                                </button>
-                            </div>
+                    <!-- Floating View Controls -->
+                    <div style="position: absolute; bottom: 85px; right: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 8px;">
+                        <button id="rotate-terrain" class="btn" style="width: 40px; height: 40px; padding: 0; border-radius: 50%; background: rgba(var(--bg-hsl), 0.8); backdrop-filter: blur(8px); color: white;"><i class="fas fa-sync"></i></button>
+                        <button id="zoom-fit" class="btn" style="width: 40px; height: 40px; padding: 0; border-radius: 50%; background: rgba(var(--bg-hsl), 0.8); backdrop-filter: blur(8px); color: white;"><i class="fas fa-expand"></i></button>
+                        <button id="toggle-wireframe" class="btn" style="width: 40px; height: 40px; padding: 0; border-radius: 50%; background: rgba(var(--bg-hsl), 0.8); backdrop-filter: blur(8px); color: white;"><i class="fas fa-border-all"></i></button>
+                    </div>
 
-                            <div class="playback-controls">
-                                <button class="control-btn" id="play-3d-simulation">
-                                    <i class="fas fa-play"></i>
-                                    Start 3D Fire
-                                </button>
-                                <button class="control-btn" id="pause-3d-simulation">
-                                    <i class="fas fa-pause"></i>
-                                    Pause
-                                </button>
-                                <button class="control-btn" id="fast-forward-3d">
-                                    <i class="fas fa-fast-forward"></i>
-                                    Fast Forward
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Fire Information Popup -->
-                        <div class="fire-info-popup" id="fire-info-popup" style="display: none;">
-                            <div class="popup-header">
-                                <h4>Fire Analysis</h4>
-                                <button class="popup-close" onclick="closeFireInfoPopup()">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                            <div class="popup-content">
-                                <div class="factor-item">
-                                    <i class="fas fa-wind" style="color: #60A5FA;"></i>
-                                    <span class="factor-label">Wind Speed:</span>
-                                    <span class="factor-value" id="popup-wind">15 km/h</span>
-                                </div>
-                                <div class="factor-item">
-                                    <i class="fas fa-seedling" style="color: #22C55E;"></i>
-                                    <span class="factor-label">Vegetation Dryness:</span>
-                                    <span class="factor-value" id="popup-dryness">68%</span>
-                                </div>
-                                <div class="factor-item">
-                                    <i class="fas fa-mountain" style="color: #92400E;"></i>
-                                    <span class="factor-label">Slope Angle:</span>
-                                    <span class="factor-value" id="popup-slope">15°</span>
-                                </div>
-                                <div class="factor-item">
-                                    <i class="fas fa-thermometer-half" style="color: #EF4444;"></i>
-                                    <span class="factor-label">Temperature:</span>
-                                    <span class="factor-value" id="popup-temperature">32°C</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- AR Instructions Overlay -->
-                        <div class="ar-instructions" id="ar-instructions" style="display: none;">
-                            <div class="instructions-content">
-                                <h3>AR Mode Instructions</h3>
-                                <ol>
-                                    <li>Point your device camera at a flat surface</li>
-                                    <li>Wait for the surface to be detected</li>
-                                    <li>Tap to place the 3D fire simulation</li>
-                                    <li>Walk around to view from different angles</li>
-                                </ol>
-                                <button class="action-btn" onclick="startARSession()">
-                                    Start AR Experience
-                                </button>
-                            </div>
+                    <!-- Floating Playback Controls -->
+                    <div style="position: absolute; bottom: 20px; left: 15px; right: 15px; z-index: 1000;">
+                        <div class="card" style="background: rgba(var(--bg-hsl), 0.85); backdrop-filter: blur(8px); padding: 12px; display: flex; align-items: center; justify-content: center; gap: 15px;">
+                            <button id="play-3d-simulation" class="btn btn-primary" style="padding: 8px 16px;"><i class="fas fa-play"></i> Start 3D Fire</button>
+                            <button id="pause-3d-simulation" class="btn" style="background: rgba(255,255,255,0.1); color: white; padding: 8px 16px;"><i class="fas fa-pause"></i></button>
+                            <button id="fast-forward-3d" class="btn" style="background: rgba(255,255,255,0.1); color: white; padding: 8px 16px;"><i class="fas fa-forward"></i></button>
                         </div>
                     </div>
-                </div>
 
-                <!-- FireVision Control Panel -->
-                <div class="firevision-controls">
-                    <div class="control-panel">
-                        <div class="panel-header">
-                            <h3>Visualization Controls</h3>
-                            <div class="panel-mode">
-                                <span id="current-mode-indicator">3D Mode</span>
-                            </div>
-                        </div>
-
-                        <!-- Terrain Visualization Settings -->
-                        <div class="control-section">
-                            <h4>Terrain Visualization</h4>
-                            <div class="viz-settings">
-                                <div class="setting-group">
-                                    <label>
-                                        <input type="checkbox" id="show-elevation" checked>
-                                        <span class="checkmark"></span>
-                                        Show Elevation
-                                    </label>
-                                </div>
-                                <div class="setting-group">
-                                    <label>
-                                        <input type="checkbox" id="show-vegetation" checked>
-                                        <span class="checkmark"></span>
-                                        Vegetation Layer
-                                    </label>
-                                </div>
-                                <div class="setting-group">
-                                    <label>
-                                        <input type="checkbox" id="show-infrastructure" checked>
-                                        <span class="checkmark"></span>
-                                        Infrastructure
-                                    </label>
-                                </div>
-                                <div class="setting-group">
-                                    <label>
-                                        <input type="checkbox" id="show-wind-vectors">
-                                        <span class="checkmark"></span>
-                                        Wind Vectors
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Fire Simulation Controls -->
-                        <div class="control-section">
-                            <h4>Fire Simulation</h4>
-                            <div class="simulation-params">
-                                <div class="param-group">
-                                    <label>Fire Intensity</label>
-                                    <input type="range" id="fire-intensity-3d" min="0" max="100" value="50">
-                                    <span class="param-value" id="fire-intensity-value-3d">50%</span>
-                                </div>
-                                <div class="param-group">
-                                    <label>Simulation Speed</label>
-                                    <input type="range" id="sim-speed-3d" min="0.5" max="5" value="1" step="0.5">
-                                    <span class="param-value" id="sim-speed-value-3d">1x</span>
-                                </div>
-                                <div class="param-group">
-                                    <label>Time Progression</label>
-                                    <input type="range" id="time-slider-3d" min="0" max="24" value="0">
-                                    <span class="param-value" id="time-value-3d">0h</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Explainability Layer -->
-                        <div class="control-section">
-                            <h4>Trust Layer (Why View)</h4>
-                            <div class="explainability-controls">
-                                <button class="toggle-btn" id="toggle-why-view">
-                                    <i class="fas fa-lightbulb"></i>
-                                    Show Why View
-                                </button>
-                                <div class="factor-weights">
-                                    <div class="weight-item">
-                                        <span class="weight-label">Wind Impact</span>
-                                        <div class="weight-bar">
-                                            <div class="weight-fill" style="width: 75%;"></div>
-                                        </div>
-                                        <span class="weight-value">75%</span>
-                                    </div>
-                                    <div class="weight-item">
-                                        <span class="weight-label">Dryness Factor</span>
-                                        <div class="weight-bar">
-                                            <div class="weight-fill" style="width: 68%;"></div>
-                                        </div>
-                                        <span class="weight-value">68%</span>
-                                    </div>
-                                    <div class="weight-item">
-                                        <span class="weight-label">Slope Influence</span>
-                                        <div class="weight-bar">
-                                            <div class="weight-fill" style="width: 45%;"></div>
-                                        </div>
-                                        <span class="weight-value">45%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Impact Visualization -->
-                        <div class="control-section">
-                            <h4>Impact Prediction</h4>
-                            <div class="impact-settings">
-                                <div class="setting-group">
-                                    <label>
-                                        <input type="checkbox" id="show-future-burn" checked>
-                                        <span class="checkmark"></span>
-                                        Future Burn Area
-                                    </label>
-                                </div>
-                                <div class="setting-group">
-                                    <label>
-                                        <input type="checkbox" id="show-evacuation-routes" checked>
-                                        <span class="checkmark"></span>
-                                        Evacuation Routes
-                                    </label>
-                                </div>
-                                <div class="setting-group">
-                                    <label>
-                                        <input type="checkbox" id="show-villages">
-                                        <span class="checkmark"></span>
-                                        Affected Villages
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="impact-stats">
-                                <div class="stat-item">
-                                    <span class="stat-label">Predicted Burn Area</span>
-                                    <span class="stat-value" id="predicted-burn-area">0 ha</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-label">Villages at Risk</span>
-                                    <span class="stat-value" id="villages-at-risk">0</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-label">Infrastructure Threatened</span>
-                                    <span class="stat-value" id="infrastructure-threatened">None</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Export and Share -->
-                        <div class="control-section">
-                            <h4>Export & Share</h4>
-                            <div class="export-actions">
-                                <button class="action-btn secondary" onclick="captureScreenshot()">
-                                    <i class="fas fa-camera"></i>
-                                    Screenshot
-                                </button>
-                                <button class="action-btn secondary" onclick="recordSession()">
-                                    <i class="fas fa-video"></i>
-                                    Record
-                                </button>
-                                <button class="action-btn primary" onclick="shareVisualization()">
-                                    <i class="fas fa-share"></i>
-                                    Share 3D View
-                                </button>
-                            </div>
-                        </div>
+                    <!-- Info Popup -->
+                    <div id="fire-info-popup" class="card" style="position: absolute; top: 15px; right: 15px; width: 220px; display: none; z-index: 1000; padding: 12px; background: rgba(var(--bg-hsl), 0.95);">
+                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                             <h4 style="margin: 0; font-size: 0.9rem;">Point Analysis</h4>
+                             <i class="fas fa-xmark" onclick="closeFireInfoPopup()" style="cursor: pointer; font-size: 0.8rem;"></i>
+                         </div>
+                         <div style="font-size: 0.75rem; display: grid; gap: 6px;">
+                             <div style="display: flex; justify-content: space-between;"><span>Wind:</span><span id="popup-wind">--</span></div>
+                             <div style="display: flex; justify-content: space-between;"><span>Dryness:</span><span id="popup-dryness">--</span></div>
+                             <div style="display: flex; justify-content: space-between;"><span>Slope:</span><span id="popup-slope">--</span></div>
+                             <div style="display: flex; justify-content: space-between;"><span>Temp:</span><span id="popup-temperature">--</span></div>
+                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 3D Legend -->
-            <div class="firevision-legend">
-                <h4>3D Visualization Legend</h4>
-                <div class="legend-grid">
-                    <div class="legend-item">
-                        <div class="legend-color safe-terrain"></div>
-                        <span>Safe Terrain</span>
+            <!-- Visualization Control Sidebar -->
+            <div style="grid-column: span 1;">
+                <div class="card" style="margin-bottom: var(--spacing-md);" data-init-animate>
+                    <h3>Display Settings</h3>
+                    <div style="display: grid; gap: 12px; margin-top: 1rem;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" id="show-elevation" checked style="width: auto;">
+                            <span>Show Elevation</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" id="show-vegetation" checked style="width: auto;">
+                            <span>Vegetation Layer</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" id="show-infrastructure" checked style="width: auto;">
+                            <span>Infrastructure</span>
+                        </label>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color burning-area"></div>
-                        <span>Currently Burning</span>
+
+                    <h4 style="margin-top: 1.5rem;">Simulation Settings</h4>
+                    <div style="display: grid; gap: 10px; margin-top: 0.5rem;">
+                        <div class="form-group">
+                            <label>Intensity</label>
+                            <input type="range" id="fire-intensity-3d" min="0" max="100" value="50">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.75rem;"><span>Current</span><span id="fire-intensity-value-3d">50%</span></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Progression</label>
+                            <input type="range" id="time-slider-3d" min="0" max="24" value="0">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.75rem;"><span>Time Horizon</span><span id="time-value-3d">0h</span></div>
+                        </div>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color burned-area"></div>
-                        <span>Already Burned</span>
+                </div>
+
+                <div class="card" data-init-animate>
+                    <h3>Impact Prediction</h3>
+                    <div class="activity-list" style="margin-top: 10px;">
+                        <div class="activity-item" style="padding: 10px;">
+                            <div style="flex: 1;">
+                                <div class="stat-label">Predicted Burn</div>
+                                <div class="stat-value" id="predicted-burn-area" style="font-size: 1.2rem; color: var(--alert);">0 ha</div>
+                            </div>
+                        </div>
+                        <div class="activity-item" style="padding: 10px;">
+                            <div style="flex: 1;">
+                                <div class="stat-label">Villages at Risk</div>
+                                <div class="stat-value" id="villages-at-risk" style="font-size: 1.2rem; color: var(--accent);">0</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color future-burn"></div>
-                        <span>Predicted Burn (Future)</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color evacuation-route"></div>
-                        <span>Evacuation Routes</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color infrastructure"></div>
-                        <span>Infrastructure</span>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem;">
+                        <button class="btn" style="background: rgba(var(--primary-hsl), 0.1); color: var(--primary); font-size: 0.8rem;" onclick="captureScreenshot()"><i class="fas fa-camera"></i> Snapshot</button>
+                        <button class="btn" style="background: rgba(var(--primary-hsl), 0.1); color: var(--primary); font-size: 0.8rem;" onclick="shareVisualization()"><i class="fas fa-share"></i> Share</button>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="bottom-nav-link"><i class="fas fa-house"></i><span>Dashboard</span></a>
+        <a href="risk-analysis.html" class="bottom-nav-link"><i class="fas fa-chart-line"></i><span>Risk</span></a>
+        <a href="simulation.html" class="bottom-nav-link"><i class="fas fa-fire"></i><span>Sim</span></a>
+        <a href="monitoring.html" class="bottom-nav-link"><i class="fas fa-satellite-dish"></i><span>Live</span></a>
+        <a href="visualization.html" class="bottom-nav-link active"><i class="fas fa-cube"></i><span>3D</span></a>
+    </nav>
 
     <!-- Toast Container -->
     <div id="toast-container" class="toast-container"></div>
 
+    <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
+    <script src="ui-core.js"></script>
 </body>
 </html>

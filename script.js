@@ -2393,7 +2393,7 @@ function initializeMLIntegration() {
     startMLRealTimeUpdates();
     loadMLModelInfo();
     setInterval(updateMLPredictions, 60000);
-    showToast('AI/ML models initialized successfully', 'success');
+    // showToast('AI/ML models initialized successfully', 'success');
 }
 
 async function startMLRealTimeUpdates() {
@@ -2407,11 +2407,11 @@ async function startMLRealTimeUpdates() {
 
         if (response.ok) {
             realTimeUpdates = true;
-            showToast('Real-time AI predictions activated', 'success');
+            // showToast('Real-time AI predictions activated', 'success');
         }
     } catch (error) {
         console.warn('ML API not available, using fallback predictions');
-        showToast('Using local AI predictions', 'warning');
+        // showToast('Using local AI predictions', 'warning');
     }
 }
 
@@ -5265,7 +5265,7 @@ function initializeEvacuationRoutes() {
         // Setup event listeners
         setupEvacuationEventListeners();
 
-        showToast('Evacuation route system initialized', 'success');
+        // showToast('Evacuation route system initialized', 'success');
     }
 }
 
@@ -6366,12 +6366,12 @@ function initializeCommunityEngagement() {
     
     // Show tutorial for first-time users
     if (!localStorage.getItem('trainingTutorialSeen')) {
-        setTimeout(() => {
+        /* setTimeout(() => {
             showTutorial();
-        }, 1000);
+        }, 1000); */
     }
     
-    showToast('Community engagement module loaded successfully!', 'success');
+    // showToast('Community engagement module loaded successfully!', 'success');
 }
 
 // Mode Selection Functions
@@ -7429,27 +7429,37 @@ function initializeEnvironmentalImpact() {
     // Initialize charts
     initializeEnvironmentalCharts();
     
-    showToast('Environmental impact analysis ready', 'success');
+    // showToast('Environmental impact analysis ready', 'success');
 }
 
 function initializeEnvironmentalCharts() {
     // Carbon Emissions Chart
     const carbonCtx = document.getElementById('carbonEmissionsChart');
     if (carbonCtx) {
-        window.carbonEmissionsChart = new Chart(carbonCtx.getContext('2d'), {
+        const ctx = carbonCtx.getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(234, 179, 8, 0.4)');
+        gradient.addColorStop(1, 'rgba(234, 179, 8, 0)');
+
+        window.carbonEmissionsChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: ['0h', '1h', '2h', '3h', '4h', '5h', '6h'],
                 datasets: [{
                     label: 'CO₂ Emissions (tonnes/hour)',
-                    data: [0, 0, 0, 0, 0, 0, 0],
+                    data: [25, 45, 120, 240, 380, 520, 680], // Example initial data
                     borderColor: '#F59E0B',
-                    backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                    borderWidth: 3,
+                    backgroundColor: gradient,
                     fill: true,
-                    tension: 0.4
+                    tension: 0.4,
+                    pointBackgroundColor: '#F59E0B',
+                    pointBorderColor: 'rgba(255,255,255,0.2)',
+                    pointRadius: 4,
+                    pointHoverRadius: 6
                 }]
             },
-            options: getChartOptions('CO₂ Emissions Over Time', 'tonnes/hour')
+            options: getChartOptions('CO₂ Emissions Forecast', 'tonnes/hour')
         });
     }
 
@@ -7462,24 +7472,25 @@ function initializeEnvironmentalCharts() {
                 labels: ['Vegetation', 'Soil Health', 'Wildlife', 'Water Cycle', 'Carbon Storage'],
                 datasets: [{
                     label: 'Recovery Progress (%)',
-                    data: [0, 0, 0, 0, 0],
+                    data: [45, 70, 35, 60, 25],
                     borderColor: '#10B981',
                     backgroundColor: 'rgba(16, 185, 129, 0.2)',
-                    pointBackgroundColor: '#10B981'
+                    pointBackgroundColor: '#10B981',
+                    borderWidth: 2
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { labels: { color: '#ffffff' } }
+                    legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } }
                 },
                 scales: {
                     r: {
                         angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
                         grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                        pointLabels: { color: '#ffffff' },
-                        ticks: { color: '#ffffff', backdropColor: 'transparent' },
+                        pointLabels: { color: 'rgba(255,255,255,0.9)', font: { size: 11, weight: '600' } },
+                        ticks: { display: false },
                         min: 0,
                         max: 100
                     }

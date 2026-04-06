@@ -2,390 +2,248 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroNix - Forest Fire Intelligence Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NeuroNix - Forest Fire Intelligence</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="modern-app.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Left Sidebar Navigation -->
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div class="splash-logo">
+            <i class="fas fa-fire-flame-curved"></i>
+        </div>
+        <h2 style="color: var(--primary); margin-bottom: 2rem;">NeuroNix</h2>
+        <div class="loader"></div>
+    </div>
+
+    <!-- Sidebar Navigation (Desktop) -->
     <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <div class="brand">
-                    <i class="fas fa-fire-flame-curved"></i>
-                    NeuroNix
-                </div>
-                <div class="sidebar-tagline">Forest Fire Intelligence Platform</div>
-            </div>
+        <div class="brand">
+            <i class="fas fa-fire-flame-curved"></i>
+            <span>NeuroNix</span>
         </div>
         <nav class="sidebar-nav">
-            <div class="nav-section">
-                <div class="nav-section-title">Core Features</div>
-                <a href="index.html" class="sidebar-nav-link active">
-                    <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="risk-analysis.html" class="sidebar-nav-link">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Risk Assessment</span>
-                </a>
-                <a href="simulation.html" class="sidebar-nav-link">
-                    <i class="fas fa-fire"></i>
-                    <span>Fire Simulation</span>
-                </a>
-                <a href="optimization.html" class="sidebar-nav-link">
-                    <i class="fas fa-route"></i>
-                    <span>Resource Planning</span>
-                </a>
-            </div>
-            <div class="nav-section">
-                <div class="nav-section-title">Monitoring & Analysis</div>
-                <a href="monitoring.html" class="sidebar-nav-link">
-                    <i class="fas fa-satellite-dish"></i>
-                    <span>Live Monitoring</span>
-                </a>
-                <a href="visualization.html" class="sidebar-nav-link">
-                    <i class="fas fa-cube"></i>
-                    <span>3D Visualization</span>
-                </a>
-                <a href="analytics.html" class="sidebar-nav-link">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Data Analytics</span>
-                </a>
-            </div>
-            <div class="nav-section">
-                <div class="nav-section-title">Support & Info</div>
-                <a href="#help" class="sidebar-nav-link">
-                    <i class="fas fa-question-circle"></i>
-                    <span>Help Center</span>
-                </a>
-                <a href="#documentation" class="sidebar-nav-link">
-                    <i class="fas fa-book"></i>
-                    <span>Documentation</span>
-                </a>
-                <a href="#training" class="sidebar-nav-link">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>Training Videos</span>
-                </a>
-                <a href="#support" class="sidebar-nav-link">
-                    <i class="fas fa-headset"></i>
-                    <span>Technical Support</span>
-                </a>
-            </div>
+            <a href="index.html" class="nav-link active">
+                <i class="fas fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="risk-analysis.html" class="nav-link">
+                <i class="fas fa-chart-line"></i>
+                <span>Risk Assessment</span>
+            </a>
+            <a href="simulation.html" class="nav-link">
+                <i class="fas fa-fire"></i>
+                <span>Fire Simulation</span>
+            </a>
+            <a href="optimization.html" class="nav-link">
+                <i class="fas fa-route"></i>
+                <span>Resource Planning</span>
+            </a>
+            <a href="monitoring.html" class="nav-link">
+                <i class="fas fa-satellite-dish"></i>
+                <span>Live Monitoring</span>
+            </a>
+            <a href="visualization.html" class="nav-link">
+                <i class="fas fa-cube"></i>
+                <span>3D Visualization</span>
+            </a>
+            <a href="analytics.html" class="nav-link">
+                <i class="fas fa-chart-bar"></i>
+                <span>Data Analytics</span>
+            </a>
         </nav>
-        
     </aside>
 
-    <!-- Professional Fixed Header -->
+    <!-- Header -->
     <header class="fixed-header">
         <div class="header-container">
-            <button class="mobile-menu-toggle" onclick="toggleSidebar()">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="header-controls">
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Search alerts, regions, data...">
+            <div class="header-left">
+                <button class="mobile-menu-toggle" onclick="toggleSidebar()" style="background: none; border: none; color: white; font-size: 1.25rem; display: flex; align-items: center; padding: 8px;">
+                    <i class="fas fa-bars-staggered"></i>
+                </button>
+                <div class="brand brand-mobile-only">
+                    <i class="fas fa-fire-flame-curved"></i>
+                    <span>NeuroNix</span>
                 </div>
-                <div class="header-status">
-                    <div class="status-indicator">
-                        <span class="status-dot active"></span>
-                        <span class="status-text">System Online</span>
-                    </div>
-                    <div class="last-update">
-                        <i class="fas fa-sync-alt"></i>
-                        <span id="header-update-time">2 min ago</span>
+            </div>
+            <div class="header-right">
+                <div class="status-pill">
+                    <span class="status-orb"></span>
+                    <span style="font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 700;">Live Feed</span>
+                </div>
+                <div class="user-profile">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user-shield"></i>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Dashboard Overview Section -->
-    <section class="section">
-        <div class="section-header">
-            <h2>Forest Fire Intelligence Dashboard</h2>
-            <p>Real-time monitoring and AI-powered predictions for Any State of India</p>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="section-header" style="margin-bottom: var(--spacing-lg);">
+            <h2 data-init-animate>Intelligence Dashboard</h2>
+            <p data-init-animate>Real-time forest fire risk monitoring & AI prediction</p>
         </div>
 
-        <div class="dashboard-overview">
-            <div class="overview-stats">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-crosshairs"></i>
-                    </div>
-                    <div class="stat-info">
-                        <div class="stat-number">97.2%</div>
-                        <div class="stat-label">Prediction Accuracy</div>
-                    </div>
+        <!-- Quick Stats Grid -->
+        <div class="grid grid-cols-1 md-grid-cols-3" style="margin-bottom: var(--spacing-lg);">
+            <div class="card stat-card" data-init-animate>
+                <div class="stat-icon"><i class="fas fa-bullseye"></i></div>
+                <div>
+                    <div class="stat-value">97.2%</div>
+                    <div class="stat-label">Prediction Accuracy</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stat-info">
-                        <div class="stat-number">24/7</div>
-                        <div class="stat-label">Monitoring</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-map"></i>
-                    </div>
-                    <div class="stat-info">
-                        <div class="stat-number">53,483</div>
-                        <div class="stat-label">km² Coverage</div>
-                    </div>
-                </div>
-                
             </div>
+            <div class="card stat-card" data-init-animate>
+                <div class="stat-icon" style="color: var(--accent); background: hsla(var(--accent-hsl), 0.1);"><i class="fas fa-tower-broadcast"></i></div>
+                <div>
+                    <div class="stat-value">24/7</div>
+                    <div class="stat-label">Live Monitoring</div>
+                </div>
+            </div>
+            <div class="card stat-card" data-init-animate>
+                <div class="stat-icon" style="color: var(--alert); background: hsla(var(--alert-hsl), 0.1);"><i class="fas fa-map-location-dot"></i></div>
+                <div>
+                    <div class="stat-value">53k+</div>
+                    <div class="stat-label">km² Coverage</div>
+                </div>
+            </div>
+        </div>
 
-            <!-- Feature Navigation Cards -->
-            <div class="feature-navigation">
-                <h3>Platform Features</h3>
-                <div class="feature-cards-grid">
-                    <a href="risk-analysis.html" class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-area"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Risk Analysis</h4>
-                            <p>AI-powered fire risk prediction and assessment</p>
-                        </div>
+        <div class="grid grid-cols-1 lg-grid-cols-4" style="gap: var(--spacing-lg);">
+            <!-- Feature Navigation Links (Mobile Optimized Cards) -->
+            <div class="lg-grid-cols-subgrid" style="grid-column: span 1 / span 3; display: grid; gap: var(--spacing-md);">
+                <h3 style="margin-bottom: 0;" data-init-animate>Core Capabilities</h3>
+                <div class="grid grid-cols-2 md-grid-cols-3">
+                    <a href="risk-analysis.html" class="card" style="text-decoration: none; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.75rem;" data-init-animate>
+                        <i class="fas fa-chart-area" style="font-size: 2rem; color: var(--primary);"></i>
+                        <span style="font-size: 0.9rem; font-weight: 600; color: white;">Risk Analysis</span>
                     </a>
-                    <a href="simulation.html" class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-play"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Fire Simulation</h4>
-                            <p>Interactive fire spread modeling and scenarios</p>
-                        </div>
+                    <a href="simulation.html" class="card" style="text-decoration: none; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.75rem;" data-init-animate>
+                        <i class="fas fa-fire-active" style="font-size: 2rem; color: var(--accent);"></i>
+                        <span style="font-size: 0.9rem; font-weight: 600; color: white;">Fire Simulation</span>
                     </a>
-                    <a href="optimization.html" class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-cogs"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Resource Management</h4>
-                            <p>Optimal deployment and evacuation planning</p>
-                        </div>
+                    <a href="optimization.html" class="card" style="text-decoration: none; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.75rem;" data-init-animate>
+                        <i class="fas fa-route" style="font-size: 2rem; color: #3b82f6;"></i>
+                        <span style="font-size: 0.9rem; font-weight: 600; color: white;">Optimization</span>
                     </a>
-                    <a href="monitoring.html" class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-bell"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Monitoring & Alerts</h4>
-                            <p>Real-time alerts and environmental tracking</p>
-                        </div>
+                    <a href="monitoring.html" class="card" style="text-decoration: none; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.75rem;" data-init-animate>
+                        <i class="fas fa-bell" style="font-size: 2rem; color: var(--alert);"></i>
+                        <span style="font-size: 0.9rem; font-weight: 600; color: white;">Live Alerts</span>
                     </a>
-                    <a href="visualization.html" class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-cube"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>3D Visualization</h4>
-                            <p>Immersive fire behavior visualization</p>
-                        </div>
+                    <a href="visualization.html" class="card" style="text-decoration: none; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.75rem;" data-init-animate>
+                        <i class="fas fa-cube" style="font-size: 2rem; color: #a855f7;"></i>
+                        <span style="font-size: 0.9rem; font-weight: 600; color: white;">3D View</span>
                     </a>
-                    <a href="analytics.html" class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Analytics & Reports</h4>
-                            <p>Environmental impact and data insights</p>
-                        </div>
+                    <a href="analytics.html" class="card" style="text-decoration: none; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.75rem;" data-init-animate>
+                        <i class="fas fa-chart-pie" style="font-size: 2rem; color: #eab308;"></i>
+                        <span style="font-size: 0.9rem; font-weight: 600; color: white;">Analytics</span>
                     </a>
+                </div>
+
+                <h3 style="margin-top: var(--spacing-md); margin-bottom: 0;" data-init-animate>Regional Risk Status</h3>
+                <div class="grid grid-cols-1 md-grid-cols-2">
+                    <div class="card region-card" data-init-animate>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                            <div>
+                                <h4 style="margin: 0;">Nainital District</h4>
+                                <span class="badge badge-high">Critical Risk</span>
+                            </div>
+                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--alert);">92%</div>
+                        </div>
+                        <div class="grid grid-cols-3" style="font-size: 0.8rem; color: var(--text-muted);">
+                            <div style="display: flex; align-items: center; gap: 0.4rem;"><i class="fas fa-thermometer-half"></i> 34°C</div>
+                            <div style="display: flex; align-items: center; gap: 0.4rem;"><i class="fas fa-tint"></i> 22%</div>
+                            <div style="display: flex; align-items: center; gap: 0.4rem;"><i class="fas fa-wind"></i> 18k/h</div>
+                        </div>
+                    </div>
+                    <div class="card region-card" data-init-animate>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                            <div>
+                                <h4 style="margin: 0;">Almora District</h4>
+                                <span class="badge badge-mod">High Risk</span>
+                            </div>
+                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent);">76%</div>
+                        </div>
+                        <div class="grid grid-cols-3" style="font-size: 0.8rem; color: var(--text-muted);">
+                            <div style="display: flex; align-items: center; gap: 0.4rem;"><i class="fas fa-thermometer-half"></i> 31°C</div>
+                            <div style="display: flex; align-items: center; gap: 0.4rem;"><i class="fas fa-tint"></i> 28%</div>
+                            <div style="display: flex; align-items: center; gap: 0.4rem;"><i class="fas fa-wind"></i> 15k/h</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Quick Status Overview -->
-            <div class="dashboard-main-content">
-                <!-- Live Activity Feed -->
-                <div class="activity-feed-section">
-                    <div class="section-title">
-                        <h3>Live Activity Feed</h3>
-                        <div class="live-indicator">
-                            <span class="status-dot active"></span>
-                            <span>Live Updates</span>
+            <!-- Activity Feed (Sidebar on Desktop, Bottom on Mobile) -->
+            <div style="grid-column: span 1;">
+                <h3 data-init-animate>Live Activity</h3>
+                <div class="activity-list">
+                    <div class="activity-item" data-init-animate>
+                        <div class="activity-icon"><i class="fas fa-satellite"></i></div>
+                        <div class="activity-content">
+                            <h4>Satellite Update</h4>
+                            <p>MODIS imagery processed for Nainital</p>
+                            <span class="activity-time">2m ago</span>
                         </div>
                     </div>
-                    <div class="activity-feed">
-                        <div class="activity-item new">
-                            <div class="activity-icon">
-                                <i class="fas fa-satellite-dish"></i>
-                            </div>
-                            <div class="activity-content">
-                                <div class="activity-title">Satellite Data Updated</div>
-                                <div class="activity-description">New MODIS imagery processed for Nainital region</div>
-                                <div class="activity-time">2 minutes ago</div>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                            <div class="activity-content">
-                                <div class="activity-title">Risk Level Updated</div>
-                                <div class="activity-description">Almora District elevated to High Risk status</div>
-                                <div class="activity-time">8 minutes ago</div>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-cloud-sun"></i>
-                            </div>
-                            <div class="activity-content">
-                                <div class="activity-title">Weather Data Sync</div>
-                                <div class="activity-description">ERA5 meteorological data synchronized</div>
-                                <div class="activity-time">15 minutes ago</div>
-                            </div>
+                    <div class="activity-item" data-init-animate>
+                        <div class="activity-icon" style="color: var(--alert);"><i class="fas fa-triangle-exclamation"></i></div>
+                        <div class="activity-content">
+                            <h4>Risk Elevated</h4>
+                            <p>Almora District status set to high</p>
+                            <span class="activity-time">8m ago</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Regional Risk Summary -->
-                <div class="regional-summary">
-                    <div class="section-title">
-                        <h3>Regional Risk Summary</h3>
-                        <div class="live-indicator">
-                            <span class="status-dot active"></span>
-                            <span>Real-time</span>
-                        </div>
-                    </div>
-                    <div class="regional-grid">
-                        <div class="region-card very-high-risk">
-                            <div class="region-icon">
-                                <i class="fas fa-mountain"></i>
-                            </div>
-                            <div class="region-info">
-                                <div class="region-header">
-                                    <div class="region-name">Nainital District</div>
-                                    <div class="risk-badge very-high">Very High</div>
-                                </div>
-                                <div class="region-stats">
-                                    <div class="risk-percentage">92%</div>
-                                    <span><b><span style="color: rgb(231, 42, 9);">Nainital District</span></b> - Fire risk probability elevated due to extreme conditions</span>
-                                </div>
-                                <div class="region-details">
-                                    <div class="detail-item">
-                                        <i class="fas fa-thermometer-half"></i>
-                                        <span>34°C</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-tint"></i>
-                                        <span>22%</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-wind"></i>
-                                        <span>18 km/h</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="region-card high-risk">
-                            <div class="region-icon">
-                                <i class="fas fa-tree"></i>
-                            </div>
-                            <div class="region-info">
-                                <div class="region-header">
-                                    <div class="region-name">Almora District</div>
-                                    <div class="risk-badge high">High</div>
-                                </div>
-                                <div class="region-stats">
-                                    <div class="risk-percentage">76%</div>
-                                    <span><b><span style="color: rgb(215, 158, 14);">Almora District-</span></b>High risk due to dry vegetation and wind patterns</span>
-                                </div>
-                                <div class="region-details">
-                                    <div class="detail-item">
-                                        <i class="fas fa-thermometer-half"></i>
-                                        <span>31°C</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-tint"></i>
-                                        <span>28%</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-wind"></i>
-                                        <span>15 km/h</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="region-card moderate-risk">
-                            <div class="region-icon">
-                                <i class="fas fa-city"></i>
-                            </div>
-                            <div class="region-info">
-                                <div class="region-header">
-                                    <div class="region-name">Dehradun District</div>
-                                    <div class="risk-badge moderate">Moderate</div>
-                                </div>
-                                <div class="region-stats">
-                                    <div class="risk-percentage">54%</div>
-                                    <span><b><span style="color: rgb(37, 90, 236);">Dehradun District</span></b> - Moderate conditions with manageable risk factors</span>
-                                </div>
-                                <div class="region-details">
-                                    <div class="detail-item">
-                                        <i class="fas fa-thermometer-half"></i>
-                                        <span>29°C</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-tint"></i>
-                                        <span>35%</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-wind"></i>
-                                        <span>12 km/h</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="region-card low-risk">
-                            <div class="region-icon">
-                                <i class="fas fa-water"></i>
-                            </div>
-                            <div class="region-info">
-                                <div class="region-header">
-                                    <div class="region-name">Haridwar District</div>
-                                    <div class="risk-badge low">Low</div>
-                                </div>
-                                <div class="region-stats">
-                                    <div class="risk-percentage">28%</div>
-                                    <span><b><span style="color: rgb(82, 170, 14);">Haridwar District</span></b> - Low risk with favorable humidity and cooler temperatures</span>
-                                </div>
-                                <div class="region-details">
-                                    <div class="detail-item">
-                                        <i class="fas fa-thermometer-quarter"></i>
-                                        <span>27°C</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-tint"></i>
-                                        <span>42%</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-wind"></i>
-                                        <span>8 km/h</span>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="activity-item" data-init-animate>
+                        <div class="activity-icon" style="color: #3b82f6;"><i class="fas fa-cloud-sun"></i></div>
+                        <div class="activity-content">
+                            <h4>Weather Sync</h4>
+                            <p>ERA5 meteorological data updated</p>
+                            <span class="activity-time">15m ago</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="bottom-nav-link active">
+            <i class="fas fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="risk-analysis.html" class="bottom-nav-link">
+            <i class="fas fa-chart-line"></i>
+            <span>Risk</span>
+        </a>
+        <a href="simulation.html" class="bottom-nav-link">
+            <i class="fas fa-fire"></i>
+            <span>Sim</span>
+        </a>
+        <a href="monitoring.html" class="bottom-nav-link">
+            <i class="fas fa-satellite-dish"></i>
+            <span>Live</span>
+        </a>
+        <a href="analytics.html" class="bottom-nav-link">
+            <i class="fas fa-chart-bar"></i>
+            <span>Stats</span>
+        </a>
+    </nav>
 
     <!-- Toast Container -->
     <div id="toast-container" class="toast-container"></div>
 
+    <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
+    <script src="ui-core.js"></script>
 </body>
 </html>
