@@ -104,11 +104,14 @@ class ConvLSTMUNetModel:
         # Input for spatial data (satellite imagery simulation)
         spatial_input = layers.Input(shape=self.input_shape, name='spatial_features')
         
-        # ConvLSTM branch for temporal patterns
+        # ConvLSTM expects (samples, time, rows, cols, channels)
+        # Add the time dimension (as 1) using a Reshape layer for Keras 3 compatibility
+        reshaped_input = layers.Reshape((1,) + self.input_shape)(spatial_input)
+        
         convlstm = layers.ConvLSTM2D(
             filters=32, kernel_size=3, padding='same', 
             return_sequences=False, activation='tanh'
-        )(tf.expand_dims(spatial_input, axis=1))
+        )(reshaped_input)
         
         # UNet-style encoder
         conv1 = layers.Conv2D(64, 3, activation='relu', padding='same')(spatial_input)
