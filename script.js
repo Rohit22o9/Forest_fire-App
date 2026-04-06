@@ -9,7 +9,7 @@ let fireSpreadLayers = [];
 let deploymentLayers = [];
 
 // ML API endpoints
-const ML_API_BASE = window.location.origin.replace(':5000', ':5001');
+const ML_API_BASE = window.location.origin;
 let mlPredictions = {};
 let realTimeUpdates = false;
 let currentOptimization = null;

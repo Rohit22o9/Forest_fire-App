@@ -1,5 +1,5 @@
-
-from flask import Flask, request, jsonify
+import os
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import json
 import numpy as np
@@ -8,7 +8,7 @@ from ml_models import get_model_predictions, simulate_fire_scenario, NDVIAnalyze
 import threading
 import time
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app)
 
 # Global variables for real-time data simulation
@@ -1805,8 +1805,21 @@ def start_realtime():
             'error': str(e)
         }), 500
 
+# Serve static files for deployment
+@app.route('/')
+def index():
+    return send_from_directory('.', 'index.html')
+
+@app.route('/<path:path>')
+def static_files(path):
+    if '.' in path:
+        return send_from_directory('.', path)
+    return send_from_directory('.', path + '.html')
+
 if __name__ == '__main__':
     # Start real-time predictions automatically
     real_time_predictor.start_continuous_prediction()
     
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    # Bind to PORT provided by environment
+    port = int(os.environ.get("PORT", 5001))
+    app.run(host='0.0.0.0', port=port)
