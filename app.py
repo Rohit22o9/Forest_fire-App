@@ -1818,8 +1818,9 @@ def static_files(path):
 
 if __name__ == '__main__':
     # Start real-time predictions automatically
+    # This now uses the lazy-loaded get_predictor() internally
     real_time_predictor.start_continuous_prediction()
     
-    # Bind to PORT provided by environment
-    port = int(os.environ.get("PORT", 5001))
+    # Bind to dynamic PORT with 10000 as default per Render best practices
+    port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)

@@ -104,13 +104,14 @@ class ConvLSTMUNetModel:
         # Input for spatial data (satellite imagery simulation)
         spatial_input = layers.Input(shape=self.input_shape, name='spatial_features')
         
-        # ConvLSTM expects (samples, time, rows, cols, channels)
-        # Add the time dimension (as 1) using a Reshape layer for Keras 3 compatibility
+        # ConvLSTM branch for temporal patterns
+        # Using 64 filters to match the decoder's final layer for potential future Add operations,
+        # but here we'll use Concatenate as it's more robust for feature fusion.
         reshaped_input = layers.Reshape((1,) + self.input_shape)(spatial_input)
-        
         convlstm = layers.ConvLSTM2D(
-            filters=32, kernel_size=3, padding='same', 
-            return_sequences=False, activation='tanh'
+            filters=64, kernel_size=3, padding='same', 
+            return_sequences=False, activation='tanh',
+            name='convlstm_temporal'
         )(reshaped_input)
         
         # UNet-style encoder
@@ -137,8 +138,9 @@ class ConvLSTMUNetModel:
         conv5 = layers.Conv2D(64, 3, activation='relu', padding='same')(up2)
         conv5 = layers.Conv2D(64, 3, activation='relu', padding='same')(conv5)
         
-        # Combine ConvLSTM and UNet features
-        combined_spatial = layers.Add()([convlstm, conv5])
+        # Combine ConvLSTM (temporal) and UNet (spatial) features
+        # Fixed mismatch: Using Concatenate instead of Add for robust feature integration
+        combined_spatial = layers.Concatenate(name='feature_fusion')([convlstm, conv5])
         
         # Global features from spatial data
         global_features = layers.GlobalAveragePooling2D()(combined_spatial)
@@ -1271,31 +1273,52 @@ class FireRiskPredictor:
         else:
             return 'stable'
 
-# Global model instance
-fire_predictor = FireRiskPredictor()
+# Lazy loading implementation for production optimization
+_fire_predictor = None
+
+def get_predictor():
+    """Singleton pattern to lazy-load the heavy ML models only when first requested"""
+    global _fire_predictor
+    if _fire_predictor is None:
+        print("[NeuroNix] Loading AI Defense Models (TensorFlow)...")
+        _fire_predictor = FireRiskPredictor()
+        print("[NeuroNix] System online and models ready.")
+    return _fire_predictor
 
 def get_model_predictions(environmental_data: Dict) -> Dict:
-    """Main function to get comprehensive fire risk predictions"""
-    return fire_predictor.predict_comprehensive_risk(environmental_data)
+    """Main function to get comprehensive fire risk predictions (Lazy Loaded)"""
+    return get_predictor().predict_comprehensive_risk(environmental_data)
 
 def simulate_fire_scenario(lat: float, lng: float, env_data: Dict) -> Dict:
-    """Simulate fire spread scenario at given coordinates"""
+    """Simulate fire spread scenario at given coordinates (Lazy Loaded)"""
     # Convert lat/lng to grid coordinates (simplified)
-    grid_x = int((lat - 29.0) * 50)  # Rough conversion for Uttarakhand region
-    grid_y = int((lng - 79.0) * 50)
+    # Using a 100x100 grid centered around Uttarakhand coordinates
+    grid_x = int(max(0, min(99, (lat - 29.0) * 50)))
+    grid_y = int(max(0, min(99, (lng - 79.0) * 50)))
     
-    # Ensure coordinates are within grid bounds
-    grid_x = max(0, min(99, grid_x))
-    grid_y = max(0, min(99, grid_y))
-    
-    return fire_predictor.simulate_fire_spread((grid_x, grid_y), env_data)
+    return get_predictor().simulate_fire_spread((grid_x, grid_y), env_data)
 
 def optimize_resource_deployment(risk_data: Dict, available_resources: Dict) -> Dict:
-    """Optimize resource deployment for maximum coverage and minimum response time"""
-    return fire_predictor.optimize_resource_deployment(risk_data, available_resources)
+    """Optimize resource deployment (Lazy Loaded)"""
+    return get_predictor().optimize_resource_deployment(risk_data, available_resources)
 
 def calculate_carbon_emissions(burned_area_hectares: float, vegetation_type: str = 'mixed_forest', 
-                             fire_intensity: str = 'moderate_intensity') -> Dict:
+                               fire_intensity: str = 'moderate_intensity') -> Dict:
+    """Calculate CO2 emissions (Lazy Loaded)"""
+    return get_predictor().carbon_estimator.estimate_co2_emissions(
+        burned_area_hectares, vegetation_type, fire_intensity
+    )
+
+def predict_environmental_impact(burned_area_hectares: float, vegetation_type: str = 'mixed_forest', 
+                                fire_severity: str = 'moderate') -> Dict:
+    """Predict long-term impact (Lazy Loaded)"""
+    return get_predictor().impact_predictor.predict_ecological_impact(
+        burned_area_hectares, vegetation_type, fire_severity
+    )
+
+def calculate_fire_progression_emissions(simulation_results: List[Dict]) -> List[Dict]:
+    """Calculate progression-based emissions (Lazy Loaded)"""
+    return get_predictor().carbon_estimator.calculate_hourly_emissions(simulation_results)
     """Calculate CO2 emissions from forest fire"""
     return fire_predictor.calculate_carbon_emissions(burned_area_hectares, vegetation_type, fire_intensity)
 
